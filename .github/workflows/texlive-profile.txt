@@ -1,0 +1,10 @@
+selected_scheme scheme-minimal
+TEXDIR /home/ubuntu/texlive
+TEXMFCONFIG /home/ubuntu/.texlive/texmf-config
+TEXMFHOME /home/ubuntu/texmf
+TEXMFLOCAL /home/ubuntu/texlive/texmf-local
+TEXMFSYSCONFIG /home/ubuntu/texlive/texmf-config
+TEXMFSYSVAR /home/ubuntu/texlive/texmf-var
+TEXMFVAR /home/ubuntu/.texlive/texmf-var
+option_doc 0
+option_src 0

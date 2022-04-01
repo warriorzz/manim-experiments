@@ -3,3 +3,4 @@ video
 glob
 os
 scenes/__pycache__
+.idea
