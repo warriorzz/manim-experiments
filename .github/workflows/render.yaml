@@ -1,0 +1,27 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  render-readme:
+    container:
+      image: ghcr.io/warriorzz/manim-experiments/manim-base
+    name: "Render README"
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[Bot]')"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache videos
+        uses: actions/cache@v3
+        with:
+          path: |
+            /__w/manim-experiments/manim-experiments/media
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+      - name: Render videos
+        run: export LIBGS=/usr/lib/x86_64-linux-gnu/libgs.so && ./render-readme.py
+      - name: Push to repository
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: git config --global user.email noreply@bjarne.codes && git config --global user.name "[Bot] GitHub CI" && git add ./README.md ./videos && git commit -m "[Bot] Render videos" && git remote add pushorigin https://warriorzz:$ACCESS_TOKEN@github.com/warriorzz/manim-experiments && git push pushorigin main
