@@ -34,9 +34,9 @@ class VectorScene(ThreeDScene):
         area3D = axes.get_area(
             graph=ParametricFunction(
                     lambda u: np.array([
-                        u + axes.coords_to_point(0, 0, 0)[0],
-                        u * 2 / 3 + axes.coords_to_point(0, 0, 0)[1],
-                        u + axes.coords_to_point(0, 0, 0)[2]
+                        axes.coords_to_point(u, u, u)[0],
+                        axes.coords_to_point(0, u * 2 / 3, 0)[1],
+                        axes.coords_to_point(0, 0, u)[2]
                     ]), t_range=[3, 2, 3]
                 ), x_range=[0, 3], stroke_color=BLACK
         )
