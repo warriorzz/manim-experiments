@@ -29,7 +29,7 @@ class VectorScene(ThreeDScene):
         y_tex = MathTex(r"y").move_to(
             axes.coords_to_point(3 + MED_LARGE_BUFF, 1, 0)
         )
-        formulaXY = MathTex(r"\sqrt{x^2 * y^2}").to_corner(UR)
+        formulaXY = MathTex(r"\sqrt{x^2 + y^2}").to_corner(UR)
 
         area3D = axes.get_area(
             graph=ParametricFunction(
@@ -40,7 +40,7 @@ class VectorScene(ThreeDScene):
                     ]), t_range=[3, 2, 3]
                 ), x_range=[0, 3], stroke_color=BLACK
         )
-        formulaXYZ = MathTex(r"\sqrt{\sqrt{x^2 * y^2} * z^2}").next_to(axes.coords_to_point(1, 0, 5)).rotate(angle=90 * DEGREES, axis=OUT)
+        formulaXYZ = MathTex(r"\sqrt{\sqrt{x^2 + y^2} + z^2}").next_to(axes.coords_to_point(1, 0, 5)).rotate(angle=90 * DEGREES, axis=OUT)
 
         self.add(dot0, dotX1, dotX2, lineX1, axes, dotLine)
 
