@@ -2,8 +2,8 @@
 
 These are some small scenes I've created with [manim](https://github.com/3b1b/manim) / [community version](https://github.com/manimcommunity/manim).
 
-Below are some scenes.
+Take a look at them here:
 
-# ectorScene_ManimCE_v0.15.1 
+## VectorScene 
  
-![ectorScene_ManimCE_v0.15.1](https://github.com/warriorzz/manim-experiments/blob/main/videos/ectorScene_ManimCE_v0.15.1.gif)
+![VectorScene](https://github.com/warriorzz/manim-experiments/blob/main/videos/VectorScene_ManimCE_v0.15.1.gif?raw=true)
