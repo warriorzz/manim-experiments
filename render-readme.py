@@ -16,5 +16,5 @@ for video in videos:
 videos = glob.glob("./videos/*.gif")
 for i in range(len(videos)):
     name = videos[i][9:-20]
-    link = f"![{name}](https://github.com/warriorzz/manim-experiments/blob/main/{videos[i][2::]})"
+    link = f"![{name}](https://github.com/warriorzz/manim-experiments/blob/main/{videos[i][2::]}?raw=true)"
     os.system(f'echo "\n## {name} \n \n{link}" >> README.md')
