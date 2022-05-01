@@ -1,4 +1,5 @@
 from manim import *
+import math
 
 
 # noinspection PyTypeChecker
@@ -29,18 +30,18 @@ class VectorScene(ThreeDScene):
         y_tex = MathTex(r"y").move_to(
             axes.coords_to_point(3 + MED_LARGE_BUFF, 1, 0)
         )
-        formulaXY = MathTex(r"\sqrt{x^2 * y^2}").to_corner(UR)
+        formulaXY = MathTex(r"v = \sqrt{x^2 + y^2}").to_corner(UR)
 
         area3D = axes.get_area(
             graph=ParametricFunction(
-                    lambda u: np.array([
-                        u + axes.coords_to_point(0, 0, 0)[0],
-                        u * 2 / 3 + axes.coords_to_point(0, 0, 0)[1],
-                        u + axes.coords_to_point(0, 0, 0)[2]
-                    ]), t_range=[3, 2, 3]
-                ), x_range=[0, 3], stroke_color=BLACK
+                lambda u: np.array([
+                    axes.coords_to_point(u, u, u)[0],
+                    axes.coords_to_point(0, u * 2 / 3, 0)[1],
+                    axes.coords_to_point(0, 0, u)[2]
+                ]), t_range=[3, 2, 3]
+            ), x_range=[0, 3], stroke_color=BLACK
         )
-        formulaXYZ = MathTex(r"\sqrt{\sqrt{x^2 * y^2} * z^2}").next_to(axes.coords_to_point(1, 0, 5)).rotate(angle=90 * DEGREES, axis=OUT)
+        formulaXYZ = MathTex(r"v = \sqrt{\sqrt{x^2 + y^2} + z^2}").to_corner(UR)
 
         self.add(dot0, dotX1, dotX2, lineX1, axes, dotLine)
 
@@ -70,13 +71,16 @@ class VectorScene(ThreeDScene):
         self.wait()
         lineX1.remove_updater(x2_updater)
 
-        self.wait(3)
+        self.wait(1)
         self.play(Create(area))
-        self.wait(3)
+        self.wait(1)
         # self.add(angle_x1x2)
+
+        v_tex = MathTex("v").next_to(lineX1.get_center(), np.array((-MED_LARGE_BUFF, MED_LARGE_BUFF, 0)))
+
         self.play(Write(x_tex))
         self.play(Write(y_tex))
-        self.wait()
+        self.play(Write(v_tex))
         self.wait(1)
         self.play(Write(formulaXY))
         self.wait(4)
@@ -92,12 +96,40 @@ class VectorScene(ThreeDScene):
         x3_updater = dotLine.add_updater(
             lambda z: z.set_z(zV.get_value())
         )
+        v_updater = v_tex.add_updater(lambda x: x.become(
+            MathTex("v").next_to(lineX1.get_center(), np.array((-MED_LARGE_BUFF, MED_LARGE_BUFF, 0))).rotate(
+                angle=np.arctan(zV.get_value() / xV.get_value()), axis=RIGHT).rotate(
+                angle=self.camera.euler_angles[0])))
+
         self.play(
             zV.animate.set_value(dotX3.get_center()[2])
         )
         self.wait()
         lineX1.remove_updater(x3_updater)
+        v_tex.remove_updater(v_updater)
         self.add(dotX3)
+
+        lineX3 = Line3D(start=axes.coords_to_point(3, 2, 0), end=axes.coords_to_point(3, 2, 0), color=GREEN)
+        zVX3 = ValueTracker(0)
+        dotLine.set_points(axes.coords_to_point(3, 2, 0))
+
+        x32_updater = dotLine.add_updater(
+            lambda z: z.set_x(zVX3.get_value())
+        )
+
+        line_updaterX3 = lineX3.add_updater(
+            lambda z: z.become(
+                Line3D(start=axes.coords_to_point(3, 2, 0), end=dotLine.get_center(), color=GREEN)
+            )
+        )
+
+        self.add(lineX3)
+        self.play(zVX3.animate.set_value(dotX3.get_center()[2]))
+        self.wait()
+
+        dotLine.remove_updater(x32_updater)
+        lineX3.remove_updater(line_updaterX3)
+
         self.wait(1)
         self.play(Create(area3D))
         self.wait(1)
